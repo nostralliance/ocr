@@ -24,7 +24,12 @@ async def extract_text(file: UploadFile = File(...)):
     try:
         # Read the image file and extract text
         image_content = await file.read()
-        extracted_text = img2text(io.BytesIO(image_content))
+        print(type(image_content))
+        extracted_text = img2text(image_content)
         return JSONResponse(content={"text": extracted_text})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+    
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="localhost", port=8000)
